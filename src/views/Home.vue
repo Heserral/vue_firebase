@@ -3,7 +3,8 @@
     <!-- Header -->
     <div class="header flex">
       <div class="left flex flex-column">
-        <h1>Invoices</h1>
+        <h1>Invoices <button @click.prevent="logout" style="background-color:red" class="button flex" >Logout</button></h1>
+        
         <span>There are {{ invoiceData.length }} total invoices</span>
       </div>
       <div class="right flex">
@@ -40,6 +41,7 @@
 </template>
 
 <script>
+import { getAuth, signOut} from "firebase/auth";
 import Invoice from "../components/Invoice";
 import { mapMutations, mapState } from "vuex";
 
@@ -71,6 +73,12 @@ export default {
       }
       this.filteredInvoice = e.target.innerText;
     },
+    logout() {
+      const auth = getAuth();
+      signOut(auth).then(() => {
+        this.$router.replace('login');
+      });
+    }
   },
   computed: {
     ...mapState(["invoiceData"]),

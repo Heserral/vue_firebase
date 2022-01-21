@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-//import { getAuth } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 
 import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
@@ -35,14 +35,17 @@ const routes = [
     path: '/home',
     name: 'Home',
     component: Home,
-    // meta: {
-    //   requiresAuth: true
-    // }
+    meta: {
+      requiresAuth: true
+    }
   },
   {
     path: "/invoice/:invoiceId",
     name: "Invoice",
     component: InvoiceView,
+    meta: {
+      requiresAuth: true
+    }
   },
 ]
 
@@ -52,13 +55,13 @@ const router = new VueRouter({
   routes
 })
 
-// router.beforeEach((to, from, next) => {
-//   const auth = getAuth();
-//   const currentUser = auth.currentUser;
-//   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
-//   if(requiresAuth && !currentUser) next('login');
-//   else if (!requiresAuth && currentUser) next('home');
-//   else next();
-// });
+router.beforeEach((to, from, next) => {
+  const auth = getAuth();
+  const currentUser = auth.currentUser;
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
+  if(requiresAuth && !currentUser) next('login');
+  else if (!requiresAuth && currentUser) next('home');
+  else next();
+});
 
 export default router

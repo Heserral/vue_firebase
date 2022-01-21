@@ -3,7 +3,7 @@
     <h3>Login</h3>
     <input type="email" v-model="email">
     <input type="password" v-model="password">
-    <button @click.prevent="login">Login</button>
+    <button @click.prevent="login" style="background-color:red">Login</button>
   </div>
 </template>
 
